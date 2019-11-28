@@ -1,15 +1,15 @@
 (ns adventofcode-2019.day-0
-  (:require [adventofcode-2019.util :refer [slurp-input]]
+  (:require [adventofcode-2019.util :refer [slurp-input slurp-reference-input]]
             [clojure.edn :as edn]
             [clojure.string :as str]
             [clojure.test :as t]))
 
-(def reference-input (str/split "+1, -2, +3, +1" #", "))
+(def reference-input (slurp-reference-input))
 
 (def input (slurp-input))
 
 (defn parse-input [in]
-  (map clojure.edn/read-string in))
+  (map edn/read-string in))
 
 (defn part-1-solver [in]
   (reduce + (parse-input in)))

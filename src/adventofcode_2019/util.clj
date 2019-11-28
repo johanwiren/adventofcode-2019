@@ -2,11 +2,20 @@
   (:require [clojure.string :as str]
             [clojure.java.io :as io]))
 
-(defmacro slurp-input []
+(defmacro puzzle []
   `(-> *ns*
        str
        (clojure.string/split #"\.")
-       last
-       clojure.java.io/resource
-       clojure.java.io/reader
-       line-seq))
+       last))
+
+(defn ->line-seq [filename]
+  (-> filename
+      io/resource
+      io/reader
+      line-seq))
+
+(defmacro slurp-input []
+  `(->line-seq (puzzle)))
+
+(defmacro slurp-reference-input []
+  `(->line-seq (str (puzzle) "-reference")))
