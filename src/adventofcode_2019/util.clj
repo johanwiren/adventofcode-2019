@@ -9,10 +9,10 @@
        last))
 
 (defn ->line-seq [filename]
-  (-> filename
-      io/resource
-      io/reader
-      line-seq))
+  (some-> filename
+          io/resource
+          io/reader
+          line-seq))
 
 (defmacro slurp-input []
   `(->line-seq (puzzle)))
