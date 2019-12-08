@@ -25,15 +25,27 @@
        (keep matches?)
        count))
 
+(defn has-strict-adjacent-pair? [password]
+  (->> password
+       (re-seq #"(.)\1+")
+       (filter (comp #{2} count first))
+       seq))
+
+(defn strict-matches? [password]
+  (when (and (has-strict-adjacent-pair? password)
+             (is-increasing? password))
+    password))
+
 (defn part-2-solver []
-  )
+  (->> (range start (inc end))
+       (map str)
+       (keep strict-matches?)
+       count))
 
 (comment
 
   (part-1-solver)
 
-  (part-2-solver input)
+  (part-2-solver)
 
   )
-
-
