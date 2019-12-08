@@ -37,21 +37,30 @@
        flatten
        count))
 
-(defn part-2-solver [in]
-  (-> in
-      parse-input))
+(defn get-orbit [orbits obj]
+  (cons obj (get orbits obj)))
+
+(defn part-2-solver [in from to]
+  (let [deps (-> in
+                 parse-input)
+        orbits (->orbits deps)
+        [from' to'] (map (comp set
+                               (partial drop 1)
+                               (partial get-orbit orbits))
+                         [from to])
+        intersection (set/intersection from' to')
+        to-from (set/difference from' intersection)
+        to-to (set/difference to' intersection)]
+    (count (set/union to-from to-to))))
+
 
 (comment
-
-  (->> reference-input
-       parse-input
-       ->orbits)
 
   (parse-input input)
 
   (part-1-solver input)
 
-  (part-2-solver input)
+  (part-2-solver input :YOU :SAN)
 
   )
 
@@ -59,4 +68,7 @@
   (t/is (= 42 (part-1-solver reference-input))))
 
 (t/deftest part-2-test
-  (t/is (= 4 (part-2-solver reference-input))))
+  (t/is (= 4 (part-2-solver (conj reference-input
+                                  "K)YOU"
+                                  "I)SAN")
+                            :YOU :SAN))))
