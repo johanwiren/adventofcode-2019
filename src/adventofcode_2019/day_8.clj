@@ -30,19 +30,27 @@
         two-digits (count (get-digits layer 2))]
     (* one-digits two-digits)))
 
+(def chars [\. \X])
+
 (defn part-2-solver [in]
-  in)
+  (->> in
+       parse-input
+       (partition (* 25 6))
+       (apply map (fn [& args]
+                    (->> args
+                         reverse
+                         (remove #{2})
+                         last
+                         (get chars))))
+       (partition 25)))
 
 (comment
 
   (part-1-solver input 25 6)
 
-  (part-2-solver input)
+  (map println (part-2-solver input))
 
   )
 
 (t/deftest part-1-test
   (t/is (= 1 (part-1-solver reference-input 3 2))))
-
-(t/deftest part-2-test
-  (t/is (= :FIXME (part-2-solver reference-input))))
